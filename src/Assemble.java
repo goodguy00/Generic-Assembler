@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-@Command(name = "assembler", mixinStandardHelpOptions = true,
+@Command(name = "Assemble", mixinStandardHelpOptions = true,
 description = "outputs machine language for assembler file", version = "1101301g")
 
 /*
@@ -33,8 +33,8 @@ public class Assemble implements Callable<Integer> {
     @Option(names = "-e", description = "Error file", defaultValue="spec_error_report.log") static File fErr;
     @Option(names = "-s", description = "Specification file") static File fSpec;
     @Parameters(description = "Positional params", hidden=true) static List<String> positional;
-    @Parameters(index = "0") static File fAsm;
-    @Parameters(index = "1", arity = "0..1", defaultValue="object_code.out") static File fOut;
+    @Parameters(index = "0", description = "Assember Source file") static File fAsm;
+    @Parameters(index = "1", description = "Output file", arity = "0..1", defaultValue="object_code.out") static File fOut;
 
     @Override
     public Integer call() {
