@@ -16,15 +16,25 @@ Calling the progam now requires the CLASSPATH to include the picocli library (@ 
 *java Assemble*
 
 > Usage: **Assemble** [-dhtV] [-e=\<fErr>] [-o=\<fOutP>] [-s=\<fSpec>] \<fAsm> [\<fOut>] 
+>
 > outputs machine language for assembler file 
->     \<fAsm>        Assember Source file 
->     [\<fOut>]       Output file
+>
+> ​    \<fAsm>        Assember Source file 
+>
+> ​    [\<fOut>]       Output file
 >
 >   -d            Debug option 
+>
 >   -e=\<fErr>        Error file 
+>
 >   -h, --help        Show this help message and exit. 
+>
 >   -o=\<fOutP>        Output file 
+>
 >   -s=\<fSpec>        Specification file 
+>
 >   -t            Debug tree option 
+>
 >   -V, --version      Print version information and exit.
 
+Any system messages and errors are now written to the error log (-e option, default spec_error_report.log), the output file (-o option or 2nd positional parameter, default object_code.out) contains solely the byte-code output or (in case of an error of any kind) is empty. This has some practical value when further processing the output.
