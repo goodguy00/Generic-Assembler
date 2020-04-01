@@ -1,0 +1,7 @@
+while read line; do
+  tail -n +5 op-codes.h | grep "$line" | sed -n -e 's/^...0x\([0-9a-f][0-9a-f]\).......\([A-Z][A-Z][A-Z]\)....\([A-Z-]\).*$/\2\.\3\n\topc=\1H\n\n\tmnem imm\n\t\tmnem \#immed\n\t\tzero=0000B\n\t\tI-type\n\n;/p' | sed -e 's/\.-//'
+done < <(tail -n +5 op-codes.h | sed -n -e 's/^..............\([A-Z][A-Z][A-Z]....[A-Z-]\).*$/\1/p' -e '/^$/d' | sed -e 's/\.-//' |sort -u)
+
+
+
+; -------------------------------------------

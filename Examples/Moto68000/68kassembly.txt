@@ -1,0 +1,13 @@
+.data
+
+
+
+.text
+
+loopa   LINK A6, #200
+            LINK A6, #100
+            LINK A6, #50
+            BRA loopa
+
+; run
+; java -cp ../../bin/ Main 68kspec.txt 68kassembly.txt

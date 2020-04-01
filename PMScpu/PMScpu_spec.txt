@@ -1,0 +1,1103 @@
+; ---------------------------------------------
+Architecture:
+pms00
+
+; ---------------------------------------------
+Registers:
+
+D0 0000B
+D1 0001B
+D2 0010B
+D3 0011B
+D4 0100B
+D5 0101B
+D6 0110B
+D7 0111B
+D8 1000B
+D9 1001B
+D10 1010B
+D11 1011B
+D12 1100B
+D13 1101B
+D14 1110B
+D15 1111B
+
+O0 0000B
+O1 0001B
+O2 0010B
+O3 0011B
+O4 0100B
+O5 0101B
+O6 0110B
+O7 0111B
+O8 1000B
+O9 1001B
+O10 1010B
+O11 1011B
+O12 1100B
+O13 1101B
+O14 1110B
+O15 1111B
+
+; ---------------------------------------------
+Endian:
+big
+; ---------------------------------------------
+MinAddressableUnit:
+8
+
+; ---------------------------------------------
+InstructionFormat:
+
+opcode: opc(8)
+I-type: opc(8) immed(8)
+R-type: opc(8) zero(4) regd(4)
+O-type: opc(8) zero(4) outr(4)
+PI-type: opc(8) opr(4) zero(4) immed(8)
+PL-type: opc(8) opr(4) zero(4) dis(8)
+RI-type: opc(8) zero(4) regd(4) immed(8)
+OI-type: opc(8) zero(4) outr(4) immed(8)
+RL-type: opc(8) zero(4) regd(4) dis(8)
+OL-type: opc(8) zero(4) outr(4) dis(8)
+RR-type: opc(8) regds(4) regdd(4)
+OR-type: opc(8) outr(4) regd(4)
+F-type: opc(8) opr(4) regd(4)
+L-type: opc(8) dis(8)
+data-only: immed(8)
+
+; ---------------------------------------------
+AssemblyOpTree:
+
+statement: label? mnem param*
+param: label
+param: register
+param: imm
+param: imm
+param: oper
+
+label: LABEL        ; in .text: offset ; in .data: absolute
+label: -LABEL        ; in .text: offset ; in .data: absolute
+
+imm: +HEX
+imm: #HEX
+oper: $HEX
+
+register: regDirect
+register: regOut
+
+regDirect: %regD
+regD: "D0"
+regD: "D1"
+regD: "D2"
+regD: "D3"
+regD: "D4"
+regD: "D5"
+regD: "D6"
+regD: "D7"
+regD: "D8"
+regD: "D9"
+regD: "D10"
+regD: "D11"
+regD: "D12"
+regD: "D13"
+regD: "D14"
+regD: "D15"
+
+regOut: %regO
+regO: "O0"
+regO: "O1"
+regO: "O2"
+regO: "O3"
+regO: "O4"
+regO: "O5"
+regO: "O6"
+regO: "O7"
+regO: "O8"
+regO: "O9"
+regO: "O10"
+regO: "O11"
+regO: "O12"
+regO: "O13"
+regO: "O14"
+regO: "O15"
+
+; overall doc:
+; sed -n -e 's/^...0x\([0-9a-f][0-9a-f]\).......\([A-Z][A-Z][A-Z]\)....\([A-Z-]\).*$/\1 \2.\3/p' op-codes.h | sed 's+\.-$++' | sort -u -k2
+
+; tail -n +5 op-codes.h | sed -n -e 's/^..............\([A-Z][A-Z][A-Z]\)....\([A-Z-]\).*$/mnem: \"\1\.\2\"/p' -e '/^$/d' | sed -e 's/\.-//' |sort -u
+mnem: "AON.A"
+mnem: "AON.G"
+mnem: "AON.V"
+mnem: "AOP.A"
+mnem: "AOP.G"
+mnem: "AOP.V"
+mnem: "BRA.A"
+mnem: "BRA.O"
+mnem: "CAN"
+mnem: "CAZ"
+mnem: "CEQ.A"
+mnem: "CEQ.G"
+mnem: "CEQ.V"
+mnem: "CGE.A"
+mnem: "CGE.G"
+mnem: "CGE.V"
+mnem: "CGT.A"
+mnem: "CGT.G"
+mnem: "CGT.V"
+mnem: "CLE.A"
+mnem: "CLE.G"
+mnem: "CLE.V"
+mnem: "CLT.A"
+mnem: "CLT.G"
+mnem: "CLT.V"
+mnem: "CNE.A"
+mnem: "CNE.G"
+mnem: "CNE.V"
+mnem: "CRO"
+mnem: "CRR"
+mnem: "CRZ.A"
+mnem: "CRZ.G"
+mnem: "DCA"
+mnem: "HLT"
+mnem: "ICA"
+mnem: "ISP.A"
+mnem: "JMP.A"
+mnem: "JMP.O"
+mnem: "JSR.A"
+mnem: "JSR.O"
+mnem: "LDA.A"
+mnem: "LDA.I"
+mnem: "LDA.O"
+mnem: "LDA.S"
+mnem: "LDA.V"
+mnem: "LDA.X"
+mnem: "LDI.A"
+mnem: "LDI.S"
+mnem: "LDI.V"
+mnem: "LDN"
+mnem: "LDR.A"
+mnem: "LDR.O"
+mnem: "LDR.S"
+mnem: "LDR.V"
+mnem: "MVI.G"
+mnem: "MVR.G"
+mnem: "NOP"
+mnem: "OAA"
+mnem: "OMI.A"
+mnem: "OMI.O"
+mnem: "OMI.V"
+mnem: "OMM.A"
+mnem: "OMM.O"
+mnem: "OMM.V"
+mnem: "ORA.G"
+mnem: "ORI.G"
+mnem: "PHA"
+mnem: "PHI.G"
+mnem: "PHR.G"
+mnem: "PLA"
+mnem: "PLI.G"
+mnem: "PLR.G"
+mnem: "RLL"
+mnem: "RLL.G"
+mnem: "RLR"
+mnem: "RLR.G"
+mnem: "RTS"
+mnem: "SHL"
+mnem: "SHL.G"
+mnem: "SHR"
+mnem: "SHR.G"
+mnem: "STA.A"
+mnem: "STA.O"
+mnem: "STA.S"
+mnem: "STA.X"
+mnem: "STI.A"
+mnem: "STI.S"
+mnem: "STR.A"
+mnem: "STR.O"
+mnem: "STR.S"
+mnem: "TAR.G"
+mnem: "TRA.G"
+mnem: "TRS.G"
+mnem: "TSR.G"
+
+
+mnem: "DATA"
+
+MnemonicData:
+; ---------------------------------------------
+DATA
+	opc=00H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		data-only
+
+;--
+
+; while read line; do
+;     tail -n +5 op-codes.h | grep "$line" | sed -n -e 's/^...0x\([0-9a-f][0-9a-f]\).......\([A-Z][A-Z][A-Z]\)....\([A-Z-]\).*$/\2\.\3\n\topc=\1H\n\n\tmnem imm\n\t\tmnem \#immed\n\t\tzero=0000B\n\t\tI-type\n\n;/p' | sed -e 's/\.-//'
+; done < <(tail -n +5 op-codes.h | sed -n -e 's/^..............\([A-Z][A-Z][A-Z]....[A-Z-]\).*$/\1/p' -e '/^$/d' | sed -e 's/\.-//' |sort -u)
+;
+;
+; OPCODES -------------------------------------
+AON.A
+	opc=45H
+
+	mnem label, oper			; in .data
+		mnem dis $opr
+		zero=0000B
+		PL-type
+
+;--
+AON.G
+	opc=41H
+
+	mnem regDirect, oper
+		mnem %regd $opr
+		zero=0000B
+		F-type
+
+;--
+AON.V
+	opc=43H
+
+	mnem imm, oper
+		mnem #immed $opr
+		zero=0000B
+		PI-type
+
+;--
+AOP.A
+	opc=44H
+
+	mnem label, oper			; in .data
+		mnem dis $opr
+		zero=0000B
+		PL-type
+
+;--
+AOP.G
+	opc=40H
+
+	mnem regDirect, oper
+		mnem %regd $opr
+		zero=0000B
+		F-type
+
+;--
+AOP.V
+	opc=42H
+
+	mnem imm, oper
+		mnem #immed $opr
+		zero=0000B
+		PI-type
+
+;--
+BRA.A
+	opc=fcH
+
+	mnem imm			; there is no absolute label in .text
+		mnem #dis
+		zero=0000B
+		L-type
+
+;--
+BRA.O
+	opc=feH
+
+	mnem label			; in .text
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+CAN
+	opc=6fH
+
+	mnem
+		mnem
+		zero=0000B, opr=bH, regd=0H
+		F-type
+
+;--
+CAZ
+	opc=67H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+CEQ.A
+	opc=b0H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CEQ.G
+	opc=60H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CEQ.V
+	opc=68H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CGE.A
+	opc=b4H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CGE.G
+	opc=64H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CGE.V
+	opc=6cH
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CGT.A
+	opc=b3H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CGT.G
+	opc=63H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CGT.V
+	opc=6bH
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CLE.A
+	opc=b5H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CLE.G
+	opc=65H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CLE.V
+	opc=6dH
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CLT.A
+	opc=b2H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CLT.G
+	opc=62H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CLT.V
+	opc=6aH
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CNE.A
+	opc=b1H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CNE.G
+	opc=61H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+CNE.V
+	opc=69H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+CRO
+	opc=07H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+CRR
+	opc=08H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+CRZ.A
+	opc=b6H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+CRZ.G
+	opc=66H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+DCA
+	opc=19H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+HLT
+	opc=01H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+ICA
+	opc=18H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+ISP.A
+	opc=02H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+;JMP.A
+;	opc=f0H
+;
+;	mnem label			; in .data
+;		mnem dis
+;		zero=0000B
+;		L-type
+;
+;--
+JMP.A ; useless
+	opc=f0H
+
+	mnem imm			; there is no absolute label in .text
+		mnem #dis
+		zero=0000B
+		L-type
+
+;--
+JMP.O
+	opc=f1H
+
+	mnem label			; in .text
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+JSR.A ; useless
+	opc=f4H
+
+	mnem imm			; there is no absolute label in .text
+		mnem #dis
+		zero=0000B
+		L-type
+
+;--
+JSR.O
+	opc=f5H
+
+	mnem label			; in .text
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+LDA.A
+	opc=11H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+LDA.I					; special asm only token, for A-indirect (load A with a register address)
+	opc=10H
+
+	mnem register
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+LDA.O
+	opc=12H
+
+	mnem label			; in .text
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+LDA.S
+	opc=14H
+
+	mnem imm
+		mnem +dis
+		zero=0000B
+		L-type
+
+;--
+LDA.V
+	opc=10H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+LDA.X
+	opc=16H
+
+	mnem label, register		; in .data
+		mnem dis %regd
+		zero=0000B
+		RL-type
+
+;--
+LDI.A
+	opc=79H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+LDI.S
+	opc=7aH
+
+	mnem imm
+		mnem +dis
+		zero=0000B
+		L-type
+
+;--
+LDI.V
+	opc=78H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+LDN
+	opc=15H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+LDR.A
+	opc=71H
+
+	mnem regDirect, label
+		mnem %regd dis
+		zero=0000B
+		RL-type
+
+;--
+LDR.O
+	opc=72H
+
+	mnem regDirect, label
+		mnem %regd -dis
+		zero=0000B
+		RL-type
+
+;--
+LDR.S
+	opc=74H
+
+	mnem regDirect, imm
+		mnem %regd +dis
+		zero=0000B
+		RL-type
+
+;--
+LDR.V
+	opc=70H
+
+	mnem regDirect, imm
+		mnem %regd #immed
+		zero=0000B
+		RI-type
+
+;--
+MVI.G
+	opc=27H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+MVR.G
+	opc=26H
+
+	mnem regDirect, regDirect
+		mnem %regds %regdd
+		zero=0000B
+		RR-type
+
+;--
+NOP
+	opc=00H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+OAA
+	opc=afH
+
+	mnem regOut
+		mnem %outr
+		zero=0000B
+		O-type
+
+;--
+OMI.A
+	opc=a9H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+OMI.O
+	opc=aaH
+
+	mnem label			; in .data
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+OMI.V
+	opc=a8H
+
+	mnem imm
+		mnem #immed
+		zero=0000B
+		I-type
+
+;--
+OMM.A
+	opc=a1H
+
+	mnem regOut, label
+		mnem %outr dis
+		zero=0000B
+		OL-type
+
+;--
+OMM.O
+	opc=a2H
+
+	mnem regOut, label
+		mnem %outr -dis
+		zero=0000B
+		OL-type
+
+;--
+OMM.V
+	opc=a0H
+
+	mnem regOut, imm
+		mnem %outr #immed
+		zero=0000B
+		OI-type
+
+;--
+ORA.G
+	opc=29H
+
+	mnem regDirect, regOut
+		mnem %regd %outr
+		zero=0000B
+		OR-type
+
+;--
+ORI.G
+	opc=2aH
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+PHA
+	opc=33H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+PHI.G
+	opc=9bH
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+PHR.G
+	opc=93H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+PLA
+	opc=13H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+PLI.G
+	opc=7bH
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+PLR.G
+	opc=73H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+RLL
+	opc=52H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+RLL.G
+	opc=56H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+RLR
+	opc=53H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+RLR.G
+	opc=57H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+RTS
+	opc=f8H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+SHL
+	opc=50H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+SHL.G
+	opc=54H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+SHR
+	opc=51H
+
+	mnem
+		mnem
+		zero=0000B
+		opcode
+
+;--
+SHR.G
+	opc=55H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+STA.A
+	opc=31H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+STA.O
+	opc=32H
+
+	mnem label			; in .text
+		mnem -dis
+		zero=0000B
+		L-type
+
+;--
+STA.S
+	opc=34H
+
+	mnem imm
+		mnem +dis
+		zero=0000B
+		L-type
+
+;--
+STA.X
+	opc=36H
+
+	mnem label, register		; in .data
+		mnem dis %regd
+		zero=0000B
+		RL-type
+
+;--
+STI.A
+	opc=99H
+
+	mnem label			; in .data
+		mnem dis
+		zero=0000B
+		L-type
+
+;--
+STI.S
+	opc=9aH
+
+	mnem imm
+		mnem +dis
+		zero=0000B
+		L-type
+
+;--
+STR.A
+	opc=91H
+
+	mnem regDirect, label
+		mnem %regd dis
+		zero=0000B
+		RL-type
+
+;--
+STR.O
+	opc=92H
+
+	mnem regDirect, label
+		mnem %regd -dis
+		zero=0000B
+		RL-type
+
+;--
+STR.S
+	opc=94H
+
+	mnem regDirect, imm
+		mnem %regd +dis
+		zero=0000B
+		RL-type
+
+;--
+TAR.G
+	opc=90H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+TRA.G
+	opc=30H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+TRS.G
+	opc=f6H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+TSR.G
+	opc=f7H
+
+	mnem regDirect
+		mnem %regd
+		zero=0000B
+		R-type
+
+;--
+
+; ---------------------------------------------
+
+
+
